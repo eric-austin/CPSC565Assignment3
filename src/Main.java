@@ -5,9 +5,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		//set up parameters
-		int nRobots = 100;
+		int nRobots = 200;
 		double mutationRate = 0.1;
-		int nGens = 1000;
+		int nGens = 2000;
 		double rouletteFactor = 0.6;
 		double[] selectionProbs = new double[nRobots];
 		for (int i = 0; i < nRobots; i++) {
@@ -27,6 +27,7 @@ public class Main {
 		};
 		
 		//initial setup
+		Tilly best = null;
 		
 		//create random population of Tillys
 		Tilly[] population = new Tilly[nRobots];
@@ -37,15 +38,14 @@ public class Main {
 		
 		//iterate through generations
 		for (int g = 0; g < nGens; g++) {
-			//create 100 random fountains
-			Fountain[] fountains = new Fountain[100];
-			for (int i = 0; i < 100; i++) {
-				fountains[i] = new Fountain();
-			}
-			
 			//evaluate fitness of population
 			for (Tilly t : population) {
 				int totalProfit = 0;
+				//create 100 random fountains
+				Fountain[] fountains = new Fountain[100];
+				for (int i = 0; i < 100; i++) {
+					fountains[i] = new Fountain();
+				}
 				for (Fountain f : fountains) {
 					t.updateState(f);
 					t.fixFountain(f);
@@ -74,6 +74,11 @@ public class Main {
 			//evaluate fitness of children
 			for (Tilly t : children) {
 				int totalProfit = 0;
+				//create 100 random fountains
+				Fountain[] fountains = new Fountain[100];
+				for (int i = 0; i < 100; i++) {
+					fountains[i] = new Fountain();
+				}
 				for (Fountain f : fountains) {
 					t.updateState(f);
 					t.fixFountain(f);
@@ -94,7 +99,16 @@ public class Main {
 			population = Arrays.copyOf(allTillys, nRobots);
 			
 			System.out.println(population[0].toString());
+			if (best == null) {
+				best = population[0];
+			} else {
+				if (population[0].avgFitness > best.avgFitness) {
+					best = new Tilly(population[0]);
+				}
+			}
 		}
+		System.out.println("Best:");
+		System.out.println(best.toString());
 	}
 
 }
