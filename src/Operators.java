@@ -5,11 +5,11 @@ public class Operators {
 	static public Tilly crossover(Tilly parentA, Tilly parentB) {
 		Random rng = new Random();
 		Tilly newTilly = new Tilly();
-		int breakpoint = rng.nextInt(127);
+		int breakpoint = rng.nextInt(64);
 		for (int i = 0; i <= breakpoint; i++) {
 			newTilly.genome[i] = parentA.genome[i];
 		}
-		for (int i = breakpoint + 1; i < 128; i++) {
+		for (int i = breakpoint + 1; i < 65; i++) {
 			newTilly.genome[i] = parentB.genome[i];
 		}
 		return newTilly;
@@ -18,7 +18,7 @@ public class Operators {
 	static public Tilly mutate(Tilly parent, double prob) {
 		Random rng = new Random();
 		Tilly newTilly = new Tilly(parent);
-		for (int i = 0; i < 128; i++) {
+		for (int i = 0; i < 65; i++) {
 			if (rng.nextDouble() < prob) {
 				newTilly.genome[i] = (newTilly.genome[i] + rng.nextInt(6) + 1) % 7;
 			}

@@ -5,10 +5,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		//set up parameters
-		int nRobots = 200;
-		double mutationRate = 0.1;
-		int nGens = 2000;
-		double rouletteFactor = 0.6;
+		int nRobots = 100;
+		double mutationRate = 0.05;
+		int nGens = 500;
+		double rouletteFactor = 0.8;
 		double[] selectionProbs = new double[nRobots];
 		for (int i = 0; i < nRobots; i++) {
 			selectionProbs[i] = Math.pow(rouletteFactor, i);

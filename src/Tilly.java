@@ -15,9 +15,9 @@ public class Tilly {
 		this.xcoor = 1;
 		this.ycoor = 1;
 		this.state = new int[5];
-		this.genome = new int[128];
+		this.genome = new int[65];
 		Random rng = new Random();
-		for (int i = 0; i < 128; i++) {
+		for (int i = 0; i < 65; i++) {
 			this.genome[i] = rng.nextInt(7);
 		}
 		this.profit = 0;
@@ -27,7 +27,7 @@ public class Tilly {
 		this.xcoor = parent.xcoor;
 		this.ycoor = parent.ycoor;
 		this.state = Arrays.copyOf(parent.state, 5);
-		this.genome = Arrays.copyOf(parent.genome, 128);
+		this.genome = Arrays.copyOf(parent.genome, 65);
 		this.profit = parent.profit;
 		this.avgFitness = parent.avgFitness;
 	}
@@ -53,35 +53,16 @@ public class Tilly {
 	public int stateToIndex() {
 		int index = 0;
 		int twos = this.count2s();
-		if (twos == 0) {
-			for (int i = 0; i < 5; i++) {
+		if (this.state[4] == 0) {
+			index = 64;
+		} else if (twos == 0) {
+			for (int i = 0; i < 4; i++) {
 				index += Math.pow(2, i) * this.state[i];
 			}
 		} else if (twos == 1) {
-			int[] tempState = new int[4];
-			int temp = 0;
-			for (int i = 0; i < 5; i++) {
-				if (this.state[i] != 2) {
-					tempState[temp] = this.state[i];
-					temp++;
-				}
-			}
-			for (int i = 0; i < 4; i++) {
-				index += Math.pow(2, i) * tempState[i];
-			}
-			if (this.state[0] == 2) {
-				index += 32;
-			} else if (this.state[1] == 2) {
-				index += 48;
-			} else if (this.state[2] == 2) {
-				index += 64;
-			} else {
-				index += 80;
-			}
-		} else {
 			int[] tempState = new int[3];
 			int temp = 0;
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 4; i++) {
 				if (this.state[i] != 2) {
 					tempState[temp] = this.state[i];
 					temp++;
@@ -90,14 +71,35 @@ public class Tilly {
 			for (int i = 0; i < 3; i++) {
 				index += Math.pow(2, i) * tempState[i];
 			}
-			if (this.state[0] == 2 && this.state[1] == 2) {
-				index += 96;
-			} else if (this.state[1] == 2 && this.state[2] == 2) {
-				index += 104;
-			} else if (this.state[2] == 2 && this.state[3] == 2) {
-				index += 112;
+			if (this.state[0] == 2) {
+				index += 16;
+			} else if (this.state[1] == 2) {
+				index += 24;
+			} else if (this.state[2] == 2) {
+				index += 32;
 			} else {
-				index += 120;
+				index += 40;
+			}
+		} else {
+			int[] tempState = new int[2];
+			int temp = 0;
+			for (int i = 0; i < 4; i++) {
+				if (this.state[i] != 2) {
+					tempState[temp] = this.state[i];
+					temp++;
+				}
+			}
+			for (int i = 0; i < 2; i++) {
+				index += Math.pow(2, i) * tempState[i];
+			}
+			if (this.state[0] == 2 && this.state[1] == 2) {
+				index += 48;
+			} else if (this.state[1] == 2 && this.state[2] == 2) {
+				index += 52;
+			} else if (this.state[2] == 2 && this.state[3] == 2) {
+				index += 56;
+			} else {
+				index += 60;
 			}
 		}
 		return index;
